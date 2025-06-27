@@ -207,7 +207,7 @@ async function syncQuotesWithServer() {
     saveQuotes();
     populateCategories();
     filterQuotes();
-    showSyncNotification("New quotes synced from server.");
+    showSyncNotification("Quotes synced with server!");
   }
 }
 
