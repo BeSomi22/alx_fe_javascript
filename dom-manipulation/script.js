@@ -17,7 +17,6 @@ const quoteDisplay = document.getElementById("quoteDisplay");
 const categorySelect = document.getElementById("categorySelect");
 const newQuoteBtn = document.getElementById("newQuote");
 
-// Populate category dropdown
 function populateCategories() {
   const categories = [...new Set(quotes.map((q) => q.category))];
   categorySelect.innerHTML = "";
@@ -29,7 +28,6 @@ function populateCategories() {
   });
 }
 
-// Show a random quote from selected category
 function showRandomQuote() {
   const selectedCategory = categorySelect.value;
   const filteredQuotes = quotes.filter((q) => q.category === selectedCategory);
@@ -41,7 +39,6 @@ function showRandomQuote() {
   quoteDisplay.textContent = `"${filteredQuotes[randomIndex].text}"`;
 }
 
-// Add a new quote
 function addQuote() {
   const quoteText = document.getElementById("newQuoteText").value.trim();
   const quoteCategory = document
@@ -55,20 +52,41 @@ function addQuote() {
 
   quotes.push({ text: quoteText, category: quoteCategory });
 
-  // Clear input fields
   document.getElementById("newQuoteText").value = "";
   document.getElementById("newQuoteCategory").value = "";
 
-  // Update categories if new one was added
   populateCategories();
-
-  // Set new category as selected
   categorySelect.value = quoteCategory;
   showRandomQuote();
 }
 
+// ✅ Dynamically creates the quote form
+function createAddQuoteForm() {
+  const formContainer = document.getElementById("formContainer");
+
+  const quoteInput = document.createElement("input");
+  quoteInput.id = "newQuoteText";
+  quoteInput.type = "text";
+  quoteInput.placeholder = "Enter a new quote";
+
+  const categoryInput = document.createElement("input");
+  categoryInput.id = "newQuoteCategory";
+  categoryInput.type = "text";
+  categoryInput.placeholder = "Enter quote category";
+
+  const addButton = document.createElement("button");
+  addButton.textContent = "Add Quote";
+  addButton.onclick = addQuote;
+
+  formContainer.appendChild(quoteInput);
+  formContainer.appendChild(categoryInput);
+  formContainer.appendChild(addButton);
+}
+
+// Event listener for showing quotes
 newQuoteBtn.addEventListener("click", showRandomQuote);
 
-// Initial setup
+// Initialize on load
 populateCategories();
 showRandomQuote();
+createAddQuoteForm();
