@@ -90,6 +90,7 @@ function addQuote() {
 
   quotes.push({ text: quoteText, category: quoteCategory });
   saveQuotes();
+  postQuoteToServer({ text: quoteText, category: quoteCategory });
 
   // Refresh categories and dropdowns
   populateCategories();
@@ -215,6 +216,29 @@ function showSyncNotification(message) {
   const statusDiv = document.getElementById("syncStatus");
   statusDiv.textContent = message;
   setTimeout(() => (statusDiv.textContent = ""), 5000);
+}
+
+async function postQuoteToServer(quote) {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: quote.text,
+        body: quote.category,
+        userId: 1, // optional placeholder data
+      }),
+    });
+
+    const result = await response.json();
+    console.log("Quote posted to server:", result);
+    showSyncNotification("Quote sent to server (simulated).");
+  } catch (error) {
+    console.error("Failed to post quote:", error);
+    showSyncNotification("Error sending quote to server.");
+  }
 }
 
 loadQuotes();
